@@ -1,8 +1,8 @@
 class CategoriesController < ApplicationController
-	before_action :set_product, only: :show
+	before_action :set_category, only: [:show, :edit, :update, :destroy]
 
 	def index
-
+		@categories = Category.all
 	end
 
 	def show
@@ -22,9 +22,25 @@ class CategoriesController < ApplicationController
 		end
 	end
 
+	def edit
+	end
+
+	def update
+		if @category.update(category_params)
+			redirect_to @category, notice: 'Product was successfully updated.'
+		else
+			render :edit
+		end
+	end
+
+	def destroy
+		@category.destroy
+		redirect_to categories_path
+	end
+
 	private
 
-	def set_product
+	def set_category
     @category = Category.find(params[:id])
   end
 

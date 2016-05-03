@@ -8,7 +8,7 @@ describe 'Create New Category' do
 		new_category_form.visit_page.fill_in_with(name: "First Category").submit
 
 		expect(page).to have_content('Category has been created')
-		expect(Category.last.name).to eq('First category')
+		expect(Category.last.name).to eq('First Category')
 	end
 
 	scenario "cannot create category with invalid data" do
