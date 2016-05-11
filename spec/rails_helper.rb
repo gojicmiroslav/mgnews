@@ -7,6 +7,7 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'database_cleaner'
 require 'devise'
+require 'shoulda/matchers'
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 

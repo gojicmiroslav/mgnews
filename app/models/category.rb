@@ -5,4 +5,6 @@ class Category
   field :name, type: String
 
   validates :name, presence: true
+
+  has_many :articles
 end

@@ -42,9 +42,9 @@ describe CategoriesController do
 	end
 
 	describe "POST create" do
-		let(:valid_data){ FactoryGirl.attributes_for(:category) }
-
 		context "valid data" do
+			let(:valid_data){ FactoryGirl.attributes_for(:category) }
+			
 			it "redirect to category#show page" do
 				post :create, category: valid_data
 				expect(response).to redirect_to(category_path(assigns(:category)))
