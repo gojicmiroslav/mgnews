@@ -12,14 +12,17 @@ RSpec.describe Article, type: :model do
 			expect(article.valid?).to be_falsy
 		end
 
-		it 'belongs to user' do
+		it 'belongs to category' do
+			role = FactoryGirl.create(:editor) 
+			user = FactoryGirl.create(:user, role: role)
 			article = Article.new(title: "Some title", body: "Some body", 
-														category: nil, user: FactoryGirl.create(:user))
+														category: nil, user: user)
 			expect(article.valid?).to be_falsy
 		end
 
 		it 'has belongs_to user and belongs_to category association' do
-			user = FactoryGirl.create(:user)
+			role = FactoryGirl.create(:editor)
+			user = FactoryGirl.create(:user, role: role)
 			category = FactoryGirl.create(:category)
 			article = FactoryGirl.create(:article, user: user, category: category)
 			expect(article.user).to eq(user)

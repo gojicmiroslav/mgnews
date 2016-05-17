@@ -37,4 +37,7 @@ class User
   # field :locked_at,       type: Time
 
   has_many :articles
+  belongs_to :role
+
+  validates :role, presence: true
 end

@@ -6,6 +6,7 @@ class Article
   field :body, type: String
   field :pubdate, type: Time
   field :featured_image_url, type: String
+  field :published, type: DateTime, default: nil
 
   validates :title, presence: true
   validates :body, presence: true
@@ -15,4 +16,6 @@ class Article
 
   validates :user, presence: true
   validates :category, presence: true
+
+  #scope :published, -> { where(published: true) }
 end

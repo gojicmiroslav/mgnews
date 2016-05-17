@@ -20,7 +20,7 @@
     				<% @articles.each do |article| %>
 							<td><%= article.title %></td>
 							<td><%= article.body %></td>
-							<td><%= article.category.name %></td>
+							<td><%= article.category %></td>
 							<td>
 								<%= link_to "View",   article_path(article), class: "btn btn-primary" %> </td>
 							<td>	

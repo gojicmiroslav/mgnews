@@ -3,7 +3,8 @@ require_relative '../../support/login_form'
 
 feature "Delete Article" do
 	let(:login_form){ LoginForm.new }
-	let(:user){ FactoryGirl.create(:user) }
+	let(:role){ FactoryGirl.create(:editor) }
+	let(:user){ FactoryGirl.create(:user, role: role) }
 	let!(:category){ FactoryGirl.create(:category) }
 	let!(:article){ FactoryGirl.create(:article, category: category, user: user) }
 

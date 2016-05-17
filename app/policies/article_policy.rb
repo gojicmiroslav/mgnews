@@ -6,15 +6,45 @@ class ArticlePolicy < ApplicationPolicy
 		@article = article
 	end
 
+	# def index
+	# 	is_editor?
+	# end
+
+	def show?
+		is_editor? and is_owner?
+	end
+
+	def new?
+		is_editor?
+	end
+
+	def create?
+		is_editor?
+	end
+
 	def edit?
-		@user == @article.user
+		is_editor? and is_owner?
 	end
 
 	def update?
-		@user == @article.user
+		is_editor? and is_owner?
 	end
 
 	def destroy?
+		 is_editor? and is_owner? and is_not_published?
+	end
+
+	private
+
+	def is_editor?
+		@user.role.role.eql?("Editor")
+	end
+
+	def is_owner?
 		@user == @article.user
+	end
+
+	def is_not_published?
+		@article.published == nil
 	end
 end

@@ -2,17 +2,21 @@ require 'rails_helper'
 
 describe ArticlesController do
 
-	shared_examples "public access to articles" do
+	shared_examples "restrict access" do
+		let(:role){ FactoryGirl.create(:editor) }
+		let(:user){ FactoryGirl.create(:user, role: role) }
+		let(:category){ FactoryGirl.create(:category) } 
+
 		describe "GET index" do
 			it "renders :index template" do
 				get :index
-				expect(response).to render_template(:index)
+				expect(response).to redirect_to(new_user_session_path)
 			end
 
 			it "assings all articles to template" do
 				article = FactoryGirl.create(:article, user: user, category: category)
 				get :index 
-				expect(assigns(:articles)).to match([article])
+				expect(response).to redirect_to(new_user_session_path)
 			end
 		end
 
@@ -21,21 +25,14 @@ describe ArticlesController do
 
 			it "renders template :show" do
 				get :show, id: article
-				expect(response).to render_template(:show)
+				expect(response).to redirect_to(new_user_session_path)
 			end
 
 			it "assigns requested article to template" do
 				get :show, id: article
-				expect(assigns(:article)).to eq(article)
+				expect(response).to redirect_to(new_user_session_path)
 			end
 		end
-	end
-
-	describe "GUEST USER" do
-		let(:user){ FactoryGirl.create(:user) }
-		let(:category){ FactoryGirl.create(:category) } 
-
-		it_behaves_like "public access to articles"
 
 		describe "GET new" do
 			it "redirects to login page" do
@@ -74,15 +71,108 @@ describe ArticlesController do
 		end
 	end
 
-	describe "AUTHENTICATED USER" do
+	describe "GUEST USER" do
 		let(:user){ FactoryGirl.create(:user) }
+		let(:category){ FactoryGirl.create(:category) } 
+
+		it_behaves_like "restrict access"
+	end
+
+	describe "REGULAR USER" do
+		let(:regular){ FactoryGirl.create(:regular) }
+		let(:user){ FactoryGirl.create(:user, role: regular) }
+		let(:category){ FactoryGirl.create(:category) } 
+		let(:article) { FactoryGirl.create(:article, user: user, category: category) }
+
+		before do
+			sign_in(user)
+		end
+
+		describe "GET index" do
+			it "redirects to roo url" do
+				get :index 
+				expect(response).to redirect_to(root_url)
+			end
+		end
+
+		describe "GET show" do
+			let(:article){ FactoryGirl.create(:article, user: user, category: category) }
+
+			it "redirects to roo url" do
+				get :show, id: article
+				expect(response).to redirect_to(root_url)
+			end
+		end
+
+		describe "GET new" do
+			it "redirects to roo url" do
+				get :new
+				expect(response).to redirect_to(root_url)
+			end
+		end
+
+		describe "POST create" do
+			it "redirects to roo url" do
+				post :create, article: FactoryGirl.attributes_for(:article, user: user, category: category)
+				expect(response).to redirect_to(root_url)
+			end
+		end
+
+		describe "GET edit" do
+			it "redirects to roo url" do
+				get :edit, id: FactoryGirl.create(:article, user: user, category: category)
+				expect(response).to redirect_to(root_url)
+			end
+		end
+
+		describe "PUT update" do
+			it "redirects to roo url" do
+				put :update, id: FactoryGirl.create(:article, user: user, category: category), 
+											article: FactoryGirl.attributes_for(:article, user: user, category: category)
+				expect(response).to redirect_to(root_url)
+			end
+		end
+
+		describe "DELETE destroy" do
+			it "redirects to roo url" do
+				delete :destroy, id: FactoryGirl.create(:article, user: user, category: category)
+				expect(response).to redirect_to(root_url)
+			end
+
+			it "not deleted articles from database" do
+					article = FactoryGirl.create(:article, user: user, category: category)
+					expect{
+						delete :destroy, id: article
+					}.not_to change(Article, :count)
+				end
+		end
+	end
+
+	describe "EDITOR" do
+		let(:editor){ FactoryGirl.create(:editor) }
+		let(:user){ FactoryGirl.create(:user, role: editor) }
 		let(:category){ FactoryGirl.create(:category) } 
 
 		before do
 			sign_in(user)
 		end
 
-		it_behaves_like "public access to articles"
+		describe "GET index" do
+			it "renders :index template" do
+				get :index
+				expect(response).to render_template(:index)
+			end
+
+			it "assings all articles of this editor to template" do
+				other_user = FactoryGirl.create(:user, role: editor)
+				published_article = FactoryGirl.create(:published_article, user: user, category: category)
+				not_published_article = FactoryGirl.create(:not_published_article, user: user, category: category)
+				other_published_article = FactoryGirl.create(:published_article, user: other_user, category: category)
+
+				get :index 
+				expect(assigns(:articles)).to match([published_article, not_published_article])
+			end
+		end
 
 		describe "GET new" do
 			it "renders template :new" do
@@ -113,7 +203,7 @@ describe ArticlesController do
 			end
 
 			context "invalid data" do
-				let(:invalid_data){ FactoryGirl.attributes_for(:article, title: "") }
+				let(:invalid_data){ FactoryGirl.attributes_for(:article, title: "", category: category) }
 
 				it "renders :new template" do
 					post :create, article: invalid_data
@@ -128,28 +218,37 @@ describe ArticlesController do
 			end
 		end
 
-		context "is not the owner of the article" do
-			let(:another_user){ FactoryGirl.create(:user) }
+		context "is not owner of the article" do
+			let(:another_user){ FactoryGirl.create(:user, role: editor) }
+
+			describe "GET show" do
+				let(:article){ FactoryGirl.create(:article, user: another_user, category: category) }
+
+				it "redirects to root url" do
+					get :show, id: article
+					expect(response).to redirect_to(root_url)
+				end
+			end
 
 			describe "GET edit" do
-				it "redirects to articles page" do
+				it "redirects to root url" do
 					get :edit, id: FactoryGirl.create(:article, user: another_user, category: category)
-					expect(response).to redirect_to(articles_path)
+					expect(response).to redirect_to(root_url)
 				end
 			end
 
 			describe "PUT update" do
-				it "redirects to articles page" do
+				it "redirects to root url" do
 					put :update, id: FactoryGirl.create(:article, user: another_user, category: category), 
 											 article: FactoryGirl.attributes_for(:article, user: another_user, category: category)
-					expect(response).to redirect_to(articles_path)
+					expect(response).to redirect_to(root_url)
 				end
 			end
 
 			describe "DELETE destroy" do
-				it "redirects to articles page" do
+				it "redirects to root url" do
 					delete :destroy, id: FactoryGirl.create(:article, user: another_user, category: category)
-					expect(response).to redirect_to(articles_path)
+					expect(response).to redirect_to(root_url)
 				end
 
 				it "not deleted articles from database" do
@@ -161,8 +260,22 @@ describe ArticlesController do
 			end
 		end
 
-		context "is the owner of the article" do
-			let(:article){ FactoryGirl.create(:article, user: user, category: category) }
+		context "is owner of the article" do
+			let(:article){ FactoryGirl.create(:article, category: category, user: user) }
+
+			describe "GET show" do
+				describe "GET show" do
+					it "renders :show template" do
+						get :show, id: article
+						expect(response).to render_template(:show)
+					end
+
+					it "assigns requested article to template" do
+						get :show, id: article
+						expect(assigns(:article)).to eq(article) 
+					end
+				end
+			end
 
 			describe "GET edit" do
 				it "renders :edit template" do
@@ -214,11 +327,32 @@ describe ArticlesController do
 					expect(response).to redirect_to(articles_path)
 				end
 
-				it "deletes article from the database" do
-					delete :destroy, id: article
-					expect(Article.where(id: article.id).exists?).to be_falsy
+				context "article is published" do
+					let!(:published_article) { FactoryGirl.create(:published_article, category: category, user: user) }
+
+					it "not deletes article from the database" do
+						expect{
+							delete :destroy, id: published_article
+						}.not_to change(Article, :count)
+					end
+				end
+
+				context "article is not published" do
+					let!(:not_published_article) { FactoryGirl.create(:not_published_article, category: category, user: user) }
+
+					it "deletes article from the database" do
+						delete :destroy, id: not_published_article
+						expect(Article.where(id: not_published_article.id).exists?).to be_falsy
+					end
+
+					it "changes article count in the database" do
+						expect{
+							delete :destroy, id: not_published_article
+						}.to change(Article, :count)
+					end
 				end
 			end
 		end
 	end
+
 end

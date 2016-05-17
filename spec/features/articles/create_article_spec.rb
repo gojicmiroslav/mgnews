@@ -5,7 +5,8 @@ require_relative '../../support/articles/new_article_form'
 feature 'Create new article' do
 	let(:login_form){ LoginForm.new }
 	let(:new_article_from) { NewArticleForm.new }
-	let(:user){ FactoryGirl.create(:user) }
+	let(:role){ FactoryGirl.create(:editor) }
+	let(:user){ FactoryGirl.create(:user, role: role) }
 	let!(:category){ FactoryGirl.create(:category) }
 
 	scenario "create new article with valid data" do
