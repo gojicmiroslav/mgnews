@@ -5,9 +5,11 @@ RSpec.describe Role, type: :model do
 
   it 'has has_many users association' do
   	role = FactoryGirl.create(:regular)
-		user = FactoryGirl.create(:user, role: role)
-		role.users << user
+		user1 = FactoryGirl.create(:user)
+		user2 = FactoryGirl.create(:user)
+		role.users << user1
+		role.users << user2
 		role.save
-		expect(role.users).to match([user])
+		expect(role.users).to match([user1, user2])
 	end
 end

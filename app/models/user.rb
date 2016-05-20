@@ -7,6 +7,8 @@ class User
   devise :database_authenticatable, :registerable, 
          :recoverable, :rememberable, :trackable, :validatable
 
+  after_create :set_default_role
+
   ## Database authenticatable
   field :email,              type: String, default: ""
   field :encrypted_password, type: String, default: ""
@@ -37,7 +39,14 @@ class User
   # field :locked_at,       type: Time
 
   has_many :articles
-  belongs_to :role
+  has_and_belongs_to_many :roles
 
-  validates :role, presence: true
+  private 
+
+  def set_default_role
+    role = Role.where(role: "Regular")
+    roles << role
+    save
+  end
+
 end
