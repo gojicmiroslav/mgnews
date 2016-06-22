@@ -1,6 +1,7 @@
 
 <div class="row">
 	<div class="col-sm-8 col-sm-offset-2">
+		<h4><%= link_to 'Home', root_url %></h4>
 		<div class="list-group">
   		<h3>Yours Articles</h3>
   		<br />
@@ -16,21 +17,7 @@
   					</tr>
   				</thead>
   				<tbody>
-    				<%#= render @artcles %>
-    				<% @articles.each do |article| %>
-							<td><%= article.title %></td>
-							<td><%= article.body %></td>
-							<td><%= article.category %></td>
-							<td>
-								<%= link_to "View",   article_path(article), class: "btn btn-primary" %> </td>
-							<td>	
-								<%= link_to "Edit",   edit_article_path(article), class: "btn btn-primary" %> </td>
-							<td>
-								<%= link_to "Delete", article, data: {
-						  													confirm: 'Are you shure?'
-																			}, method: :delete, class: "btn btn-danger" %> 
-							</td>
-						<% end %>
+    				<%= render @articles %>
     			</tbody>
   			</table>
 			</div>

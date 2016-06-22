@@ -1,7 +1,7 @@
 class ArticlesController < ApplicationController
 	before_action :set_article, only: [:show, :edit, :update, :destroy]
 	before_action :authenticate_user!
-	before_action :authorize_articles, only: :index
+	before_action :authorize_articles, only: [:index]
 
 	def index
 		@articles = get_all_articles_from_owner
@@ -12,7 +12,7 @@ class ArticlesController < ApplicationController
 	end
 
 	def new
-		@article = Article.new
+		@article = Article.new(user: current_user)
 		authorize @article
 	end
 
@@ -53,7 +53,7 @@ class ArticlesController < ApplicationController
 	end
 
 	def article_params
-		params.require(:article).permit(:title, :body, :pubdate, :featured_image_url, :user, :category)
+		params.require(:article).permit(:title, :body, :pubdate, :featured_image_url, :user, :category, :show_text)
 	end
 
 	def user_not_authorized
@@ -72,7 +72,7 @@ class ArticlesController < ApplicationController
 	end
 
 	def authorize_articles
-		if !current_user.role.role.eql?("Editor")
+		if !current_user.roles.include?(Role.where(role: "Editor").first)
 			redirect_to root_url
 		end
 	end

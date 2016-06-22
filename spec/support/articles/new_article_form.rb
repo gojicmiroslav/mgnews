@@ -8,8 +8,9 @@ class NewArticleForm
 	end
 
 	def fill_in_with(params = {})
-		fill_in("Title", with: params.fetch(:title, "Default Article Title"))
-		fill_in("Body", with: params.fetch(:body, "Default Article Body"))
+		fill_in("Title", with: params.fetch(:title, "New Article Title"))
+		fill_in("Show Text", with: params.fetch(:show_text, "New Show Text"))
+		fill_in("Body", with: params.fetch(:body, "New Article Body"))
 		select('Default Category', from: 'Category')
 		self
 	end

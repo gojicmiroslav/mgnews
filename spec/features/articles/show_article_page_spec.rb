@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 describe "Show Article" do
-	let(:login_form){ LoginForm.new }
-	let(:role){ FactoryGirl.create(:editor) }
-	let(:user){ FactoryGirl.create(:user, role: role) }
+	let(:user){ FactoryGirl.create(:user_editor) }
+
+	before do
+		login_as(user, :scope => :user)
+	end
 
 	scenario "article page" do
-		login_form.visit_page(new_user_session_path).login_as(user)
 		article = FactoryGirl.create(:article, user: user, category: FactoryGirl.create(:category))
 		visit article_path(article)
 		expect(page).to have_content(article.title)

@@ -1,17 +1,14 @@
 require 'rails_helper'
-require_relative '../../support/login_form'
 require_relative '../../support/articles/edit_article_form'
 
 feature "Edit Article" do
-	let(:login_form){ LoginForm.new }
-	let(:role){ FactoryGirl.create(:editor) }
-	let(:user){ FactoryGirl.create(:user, role: role) }
+	let!(:user){ FactoryGirl.create(:user_editor) }
 	let(:edit_article_from) { EditArticleForm.new }
 	let!(:category){ FactoryGirl.create(:category) }
 	let!(:article){ FactoryGirl.create(:article, category: category, user: user) }
 
 	before do
-		login_form.visit_page(new_user_session_path).login_as(user)
+		login_as(user, :scope => :user)
 	end
 
 	scenario "edit article with valid data" do

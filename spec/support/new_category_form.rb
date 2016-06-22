@@ -9,6 +9,7 @@ class NewCategoryForm
 
 	def fill_in_with(params = {})
 		fill_in('Name', with: params.fetch(:name, 'Default Category'))
+		select('1', from: 'Menu Order')
 		self
 	end
 

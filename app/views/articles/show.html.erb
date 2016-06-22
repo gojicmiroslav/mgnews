@@ -1,4 +1,8 @@
 <div class="row">
+	<h4><%= link_to 'Home', root_url %></h4>
 	<h1><%= @article.title %></h1>
+	<h3>Category: <%= @article.category.name %></h3>
 	<p><%= @article.body %></p>
+
+	<h4><%= link_to 'Back', articles_path %></h4>
 </div>

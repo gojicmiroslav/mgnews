@@ -2,20 +2,14 @@ require 'rails_helper'
 
 describe ArticlesController do
 
-	shared_examples "restrict access" do
-		let(:role){ FactoryGirl.create(:editor) }
-		let(:user){ FactoryGirl.create(:user, role: role) }
+	describe "GUEST USER" do
 		let(:category){ FactoryGirl.create(:category) } 
+		let(:role){ FactoryGirl.create(:regular) }
+		let(:user){ FactoryGirl.create(:user_regular) }
 
 		describe "GET index" do
-			it "renders :index template" do
+			it "redirects to root url" do
 				get :index
-				expect(response).to redirect_to(new_user_session_path)
-			end
-
-			it "assings all articles to template" do
-				article = FactoryGirl.create(:article, user: user, category: category)
-				get :index 
 				expect(response).to redirect_to(new_user_session_path)
 			end
 		end
@@ -23,12 +17,7 @@ describe ArticlesController do
 		describe "GET show" do
 			let(:article){ FactoryGirl.create(:article, user: user, category: category) }
 
-			it "renders template :show" do
-				get :show, id: article
-				expect(response).to redirect_to(new_user_session_path)
-			end
-
-			it "assigns requested article to template" do
+			it "redirects to root url" do
 				get :show, id: article
 				expect(response).to redirect_to(new_user_session_path)
 			end
@@ -42,14 +31,14 @@ describe ArticlesController do
 		end
 
 		describe "POST create" do
-			it "redirects to login page" do
+			it "redirects to root url" do
 				post :create, article: FactoryGirl.attributes_for(:article, user: user, category: category)
 				expect(response).to redirect_to(new_user_session_path)
 			end
 		end
 
 		describe "GET edit" do
-			it "redirects to login page" do
+			it "redirects to root url" do
 				get :edit, id: FactoryGirl.create(:article, user: user, category: category)
 				expect(response).to redirect_to(new_user_session_path)
 			end
@@ -71,16 +60,8 @@ describe ArticlesController do
 		end
 	end
 
-	describe "GUEST USER" do
-		let(:user){ FactoryGirl.create(:user) }
-		let(:category){ FactoryGirl.create(:category) } 
-
-		it_behaves_like "restrict access"
-	end
-
 	describe "REGULAR USER" do
-		let(:regular){ FactoryGirl.create(:regular) }
-		let(:user){ FactoryGirl.create(:user, role: regular) }
+		let(:user){ FactoryGirl.create(:user_regular) }
 		let(:category){ FactoryGirl.create(:category) } 
 		let(:article) { FactoryGirl.create(:article, user: user, category: category) }
 
@@ -89,7 +70,7 @@ describe ArticlesController do
 		end
 
 		describe "GET index" do
-			it "redirects to roo url" do
+			it "redirects to root url" do
 				get :index 
 				expect(response).to redirect_to(root_url)
 			end
@@ -98,35 +79,35 @@ describe ArticlesController do
 		describe "GET show" do
 			let(:article){ FactoryGirl.create(:article, user: user, category: category) }
 
-			it "redirects to roo url" do
+			it "redirects to root url" do
 				get :show, id: article
 				expect(response).to redirect_to(root_url)
 			end
 		end
 
 		describe "GET new" do
-			it "redirects to roo url" do
+			it "redirects to root url" do
 				get :new
 				expect(response).to redirect_to(root_url)
 			end
 		end
 
 		describe "POST create" do
-			it "redirects to roo url" do
+			it "redirects to root url" do
 				post :create, article: FactoryGirl.attributes_for(:article, user: user, category: category)
 				expect(response).to redirect_to(root_url)
 			end
 		end
 
 		describe "GET edit" do
-			it "redirects to roo url" do
+			it "redirects to root url" do
 				get :edit, id: FactoryGirl.create(:article, user: user, category: category)
 				expect(response).to redirect_to(root_url)
 			end
 		end
 
 		describe "PUT update" do
-			it "redirects to roo url" do
+			it "redirects to root url" do
 				put :update, id: FactoryGirl.create(:article, user: user, category: category), 
 											article: FactoryGirl.attributes_for(:article, user: user, category: category)
 				expect(response).to redirect_to(root_url)
@@ -134,7 +115,7 @@ describe ArticlesController do
 		end
 
 		describe "DELETE destroy" do
-			it "redirects to roo url" do
+			it "redirects to root url" do
 				delete :destroy, id: FactoryGirl.create(:article, user: user, category: category)
 				expect(response).to redirect_to(root_url)
 			end
@@ -149,16 +130,16 @@ describe ArticlesController do
 	end
 
 	describe "EDITOR" do
-		let(:editor){ FactoryGirl.create(:editor) }
-		let(:user){ FactoryGirl.create(:user, role: editor) }
+		let(:user){ FactoryGirl.create(:user_editor) }
 		let(:category){ FactoryGirl.create(:category) } 
 
 		before do
-			sign_in(user)
+			# sign_in users(:alice), scope: :admin
+			sign_in user
 		end
 
 		describe "GET index" do
-			it "renders :index template" do
+			it "renders :index template" do				
 				get :index
 				expect(response).to render_template(:index)
 			end

@@ -15,7 +15,22 @@ class ArticlePolicy < ApplicationPolicy
 	end
 
 	def new?
-		is_editor?
+		puts "Size: " + article.user.roles.count.to_s
+		puts "ROLES: #{article.user.roles}"
+
+		if article.user.roles.nil?
+			puts "NIL"
+		else
+			puts "NOT NIL"
+			article.user.roles.each do |role|
+				puts role.role
+			end
+		end		
+
+		puts "Article user: #{article.user}"
+		res = article.user.roles.include?(Role.where(role: "Editor").first)
+		puts "Reponse: #{res}"
+		res
 	end
 
 	def create?
@@ -31,20 +46,27 @@ class ArticlePolicy < ApplicationPolicy
 	end
 
 	def destroy?
-		 is_editor? and is_owner? and is_not_published?
+		 is_editor? and is_owner?
 	end
 
 	private
 
 	def is_editor?
-		@user.role.role.eql?("Editor")
+		#@user.role.role.eql?("Editor")
+		#@user.roles.include?(Role.where(role: "Editor").first)
+		#@article.user.roles.include?(Role.where(role: "Editor").first)
+
+		article.user.roles.each do |role|
+			puts role.role
+		end
+
+		puts "Article user: #{article.user}"
+		res = article.user.roles.include?(Role.where(role: "Editor").first)
+		puts "Reponse: #{res}"
+		res
 	end
 
 	def is_owner?
 		@user == @article.user
-	end
-
-	def is_not_published?
-		@article.published == nil
 	end
 end
