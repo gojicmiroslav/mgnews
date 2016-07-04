@@ -29,7 +29,7 @@ gem 'bootstrap-will_paginate'
 gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'pundit'
-gem 'rails_admin'
+gem 'puma'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
