@@ -147,7 +147,7 @@ production:
      # replica set connection setup.
      # Use environment variables or a config file to keep your
      # credentials safe e.g. <%= ENV['MONGODB_URI'] %>.
-     uri: <%= ENV['MONGOLAB_URI'] %>
+     uri: mongodb://miroslavy2k:deronje777@ds015335.mlab.com:15335/mgnews_production
 
      options:
        # The default timeout is 5, which is the time in seconds
