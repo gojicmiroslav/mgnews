@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   resources :categories
   resources :articles
 
+  #match '/uploads/article/featured_image/:id/:filename' => 'gridfs#featured_image'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

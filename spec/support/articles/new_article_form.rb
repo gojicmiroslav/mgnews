@@ -12,6 +12,7 @@ class NewArticleForm
 		fill_in("Show Text", with: params.fetch(:show_text, "New Show Text"))
 		fill_in("Body", with: params.fetch(:body, "New Article Body"))
 		select('Default Category', from: 'Category')
+		attach_file('Featured image', "#{Rails.root}/spec/fixtures/" + params.fetch(:featured_image, 'featured_image.png'))
 		self
 	end
 

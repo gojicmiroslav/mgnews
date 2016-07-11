@@ -53,7 +53,7 @@ class ArticlesController < ApplicationController
 	end
 
 	def article_params
-		params.require(:article).permit(:title, :body, :pubdate, :featured_image_url, :user, :category, :show_text)
+		params.require(:article).permit(:title, :body, :pubdate, :featured_image, :user, :category, :show_text)
 	end
 
 	def user_not_authorized

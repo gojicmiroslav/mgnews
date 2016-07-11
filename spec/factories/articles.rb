@@ -4,7 +4,7 @@ FactoryGirl.define do
     show_text "Show text"
     body "MyString"
     pubdate "2016-05-03 21:33:21"
-    featured_image_url "some_file.png"
+    featured_image "some_file.png"
 
     factory :published_article do
     	pubdate DateTime.now

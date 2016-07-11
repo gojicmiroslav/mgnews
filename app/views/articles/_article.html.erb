@@ -2,6 +2,7 @@
 	<td><%= article.title %></td>
 	<td><%= article.body %></td>
 	<td><%= article.category.name %></td>
+	<td><%= link_to image_tag(article.featured_image.url, size: "100x100"), article.featured_image.url %></td>
 	<td>
 		<%= link_to "View",   article_path(article), class: "btn btn-primary" %> </td>
 	<td>	

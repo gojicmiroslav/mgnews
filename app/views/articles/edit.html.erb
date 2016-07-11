@@ -1,12 +1,6 @@
 <h4><%= link_to 'Home', root_url %></h4>
 
 <h2>Edit Article</h2>
-
-<%= simple_form_for @article do |f| %>
-	<%= f.input :category, collection: Category.all.map { |cat| [cat.name, cat.id]} %>
-	<%= f.input :title %>
-	<%= f.input :body, as: :text %>
-	<%= f.submit 'Update Article', class: 'btn btn-primary' %>
-<% end %>
+<%= render :partial => 'form' %>
 
 <h4><%= link_to 'Back', articles_path %></h4>
