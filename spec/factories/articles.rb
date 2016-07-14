@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :article do
     sequence(:title){ |n| "Article #{n}" }
-    show_text "Show text"
+    show_text "Show text" * 20
     body "MyString"
     pubdate "2016-05-03 21:33:21"
     featured_image "some_file.png"
@@ -39,4 +39,9 @@ FactoryGirl.define do
     title "Fifth Article"
     pubdate 5.day.ago
   end 
+
+  factory :random_article, parent: :article do
+    sequence(:title){ |n| "Title #{n}" }
+    pubdate 5.day.ago
+  end
 end

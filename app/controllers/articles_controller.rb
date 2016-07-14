@@ -4,7 +4,8 @@ class ArticlesController < ApplicationController
 	before_action :authorize_articles, only: [:index]
 
 	def index
-		@articles = get_all_articles_from_owner
+		#@articles = get_all_articles_from_owner
+		@articles = Article.page params[:page]
 	end
 
 	def show
@@ -63,7 +64,7 @@ class ArticlesController < ApplicationController
 
 	def get_all_articles_from_owner
 		@articles = []
-		Article.all.each do |article|
+		Article.publish_date_desc.each do |article|
 			if current_user == article.user
 				@articles << article
 			end

@@ -12,12 +12,13 @@ class Article
 
   # Validations
   validates :title, presence: true
-  validates :show_text, presence: true, length: { maximum: 250 }
+  validates :show_text, presence: true, length: { maximum: 250, minimum: 100 }
   validates :body, presence: true
   validates :user, presence: true
   validates :category, presence: true
   validate :image_size
 
+  scope :publish_date_desc, -> { order_by(created_at: :desc) }
   scope :published, -> { where( :pubdate.ne => nil) }
   scope :first_three_articles, -> { order_by(pubdate: :desc).limit(3) }
   scope :second_two_articles, -> { order_by(pubdate: :desc).skip(3).limit(2) }
