@@ -4,110 +4,174 @@
 </div>
 
 <div class="row">
-  <div class="row-height">
     <div class="col-xs-6 col-sm-3 col-sm-height col-sm-top">
-      <div class="inside inside-full-height">
-        <div class="content">
-        	<% @first_three_articles.each do |article| %>
-						<hr />
-						<h4><%= article.title %></h4>
-						<p><%=  article.show_text %></p>
-					<% end %>
-        </div>
-      </div>
-  	</div>
+      	<div class="inside inside-full-height">
+        	<div class="content">
+        		<% @first_three_articles.each do |article| %>
+					<h4><%= link_to article.title, article %></h4>
+					<p><%=  article.show_text %></p>
+					<%= image_tag(article.featured_image.url, class: "img-responsive img-rounded tweet-img", size: '200') if article.featured_image? %>
+					<hr />
+				<% end %>
+        	</div>
+  		</div>
+  	</div>	
+
     
     <div class="col-xs-6 col-sm-6 col-sm-height col-sm-top">
       <div class="inside inside-full-height">
-        <div class="content">
+        <div class="">
         	<% @second_two_articles.each_with_index do |article, index| %>
-						<hr />
-						<h3><%= article.title %></h3>
-						<p><%=  article.show_text %></p>
-					<% end %>
+				<h2><%= link_to article.title, article %></h2>
+				<p><%=  article.show_text %></p>
+				<p><%= image_tag(article.featured_image.url, class: "img-responsive img-rounded tweet-img", width: '500') if article.featured_image? %></p>
+				<hr />
+			<% end %>
         </div>
       </div>
     </div>
 
     <div class="col-xs-6 col-sm-3 col-sm-height col-sm-middle">
-      <div class="inside inside-full-height">
-        <div class="content">
-        	<h4>Most Read</h4>
-			    <% @most_read.each do |article| %>
-			    <div class="media">
-					  <div class="media-right media-top">
-					    <a href="#">
-					      <img class="media-object" src="..." alt="...">
-					    </a>
-					  </div>
-					  <div class="media-body">
-					    <%= article.title %>
-					  </div>
+    	<div class="sidebar-module sidebar-module-inset">
+            <h4>Video</h4>
+            <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+            <div class="embed-container">
+            	<%= embed("http://www.youtube.com/watch?v=DokUjuZmpCE  ") %>
+        	</div>
+      	</div>
+      	
+      	<div class="inside inside-full-height">
+        	<div class="content">
+        		<h4>Most Read</h4>
+		    	<% @most_read.each do |article| %>
+		    		<div class="media">
+			  			<div class="media-right media-top">
+			  				<% href = article.featured_image? ?  
+			  						image_tag(article.featured_image.url, class: "media-object", 
+			  							height: "90", width: "115") :
+			  						"placeholder"
+			  			 	%>
+	      					<%= link_to article do %>
+	      						<%= href %>
+	      					<% end %>
+			  			</div>
+			  			<div class="media-body">
+			    			<%= link_to article.title, article %>
+			  			</div>
 					</div>
-					<% end %>
-        </div>
-      </div>
-    </div>
+				<% end %>
+        	</div>
+      	</div>
   </div>
 </div>
 
 
-	<% Category.all.each_with_index do |category, index| %>
-		<% if index % 4 == 0 %>
-			<div class="row">
-				<div class="col-md-3">
-					<div class="panel panel-default">
-					  <div class="panel-heading">
-					    <h3 class="panel-title"><%= category.name %></h3>
-					  </div>
-					  <div class="panel-body">
-					    <% Article.panel_articles(category).each do |article| %>
-								<h4 class="panel-title-article"><%= link_to article.title, article, class: "panel-link-article" %></h4>
-					    <% end %>
-					  </div>
-					</div>
-				</div>
-		<% elsif index % 4 == 1 %>
-				<div class="col-md-3">
-					<div class="panel panel-default">
-					  <div class="panel-heading">
-					    <h3 class="panel-title"><%= category.name %></h3>
-					  </div>
-					  <div class="panel-body">
-					    <% Article.panel_articles(category).each do |article| %>
-								<h4 class="panel-title-article"><%= link_to article.title, article, class: "panel-link-article" %></h4>
-					    <% end %>
-					  </div>
-					</div>
-				</div>
-		<% elsif index % 4 == 2 %>
-				<div class="col-md-3">
-					<div class="panel panel-default">
-					  <div class="panel-heading">
-					    <h3 class="panel-title"><%= category.name %></h3>
-					  </div>
-					  <div class="panel-body">
-					    <% Article.panel_articles(category).each do |article| %>
-								<h4 class="panel-title-article"><%= link_to article.title, article, class: "panel-link-article" %></h4>
-					    <% end %>
-					  </div>
-					</div>
-				</div>
-		<% elsif index % 4 == 3 %>
-				<div class="col-md-3">
-					<div class="panel panel-default">
-					  <div class="panel-heading">
-					    <h3 class="panel-title"><%= category.name %></h3>
-					  </div>
-					  <div class="panel-body">
-					    <% Article.panel_articles(category).each do |article| %>
-								<h4 class="panel-title-article"><%= link_to article.title, article, class: "panel-link-article" %></h4>
-					    <% end %>
-					  </div>
-					</div>
+<% Category.ordered(8).each_with_index do |category, index| %>
+	<% if index % 4 == 0 %>
+		<div class="row">
+			<div class="col-md-3">
+				<div class="panel panel-default">
+				  	<div class="panel-heading">
+				    	<h3 class="panel-title"><%= category.name %></h3>
+				  	</div>
+				  	<div class="panel-body">
+				    <% Article.panel_articles(category).each_with_index do |article, index| %>
+						<h4 class="panel-title-article"><%= link_to article.title, article, class: "panel-link-article" %></h4>
+
+						<% if index == 0 %>
+								<% href = article.featured_image? ?  
+			  						image_tag(article.featured_image.url, class: "img-responsive img-rounded tweet-img", 
+			  							height: "120", width: "230") :
+			  						"placeholder"
+			  			 		%>
+	      						<%= link_to article do %>
+	      							<%= href %>
+		      					<% end %>
+							<% end %>
+
+							<hr />
+				    <% end %>
+				  </div>
 				</div>
 			</div>
-		<% end %>
+	<% elsif index % 4 == 1 %>
+			<div class="col-md-3">
+				<div class="panel panel-default">
+				  	<div class="panel-heading">
+				    	<h3 class="panel-title"><%= category.name %></h3>
+				  	</div>
+				  	<div class="panel-body">
+				    	<% Article.panel_articles(category).each_with_index do |article, index| %>
+							<h4 class="panel-title-article"><%= link_to article.title, article, class: "panel-link-article" %></h4>
+
+							<% if index == 0 %>
+								<% href = article.featured_image? ?  
+			  						image_tag(article.featured_image.url, class: "img-responsive img-rounded tweet-img", 
+			  							height: "120", width: "230") :
+			  						"placeholder"
+			  			 		%>
+	      						<%= link_to article do %>
+	      							<%= href %>
+		      					<% end %>
+							<% end %>
+
+							<hr />
+				    	<% end %>
+				  	</div>
+				</div>
+			</div>
+	<% elsif index % 4 == 2 %>
+			<div class="col-md-3">
+				<div class="panel panel-default">
+				  	<div class="panel-heading">
+				    	<h3 class="panel-title"><%= category.name %></h3>
+				  	</div>
+				  	<div class="panel-body">
+				    	<% Article.panel_articles(category).each_with_index do |article, index| %>
+							<h4 class="panel-title-article"><%= link_to article.title, article, class: "panel-link-article" %></h4>
+							<% if index == 0 %>
+								<% href = article.featured_image? ?  
+			  						image_tag(article.featured_image.url, class: "img-responsive img-rounded tweet-img", 
+			  							height: "120", width: "230") :
+			  						"placeholder"
+			  			 		%>
+	      						<%= link_to article do %>
+	      							<%= href %>
+		      					<% end %>
+							<% end %>
+
+							<hr />
+				    	<% end %>
+				  	</div>
+				</div>
+			</div>
+	<% elsif index % 4 == 3 %>
+			<div class="col-md-3">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title"><%= category.name %></h3>
+				  </div>
+				  <div class="panel-body">
+				    <% Article.panel_articles(category).each_with_index do |article, index| %>
+							<h4 class="panel-title-article"><%= link_to article.title, article, class: "panel-link-article" %></h4>
+							<% if index == 0 %>
+								<% href = article.featured_image? ?  
+			  						image_tag(article.featured_image.url, class: "img-responsive img-rounded tweet-img", 
+			  							height: "120", width: "230") :
+			  						"placeholder"
+			  			 		%>
+	      						<%= link_to article do %>
+	      							<%= href %>
+		      					<% end %>
+							<% end %>
+
+							<hr />
+				    <% end %>
+				  </div>
+				</div>
+			</div>
+		</div>
 	<% end %>
+<% end %>
 </div>
 

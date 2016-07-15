@@ -16,7 +16,7 @@ feature 'Create new article' do
 			.fill_in_with( 
 				title: "New Article", 
 				body: "Article Body", 
-				show_text: "New Show Text",
+				show_text: "New Show Text" * 10,
 				featured_image: "featured_image.png"
 			).submit
 

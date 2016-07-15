@@ -11,6 +11,6 @@ class Category
 
   has_many :articles
 
-  scope :ordered, -> { order_by(menu_order: :asc).limit(6) }
+  scope :ordered, ->(limit) { order_by(menu_order: :asc).limit(limit) }
   scope :order_for_dropdown_menu, -> { order_by(menu_order: :asc).skip(6) }
 end

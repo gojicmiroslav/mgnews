@@ -12,7 +12,7 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-      	<% Category.ordered.each do |category| %>
+      	<% Category.ordered(6).each do |category| %>
         	 <li><%= link_to category.name, category %></li>         
         <% end %>
 

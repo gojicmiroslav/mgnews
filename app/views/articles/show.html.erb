@@ -1,13 +1,12 @@
 <div class="row">
 	<div class="col-md-2"></div>
 	<div class="col-md-8">
-	<h4><%= link_to 'Home', root_url %></h4>
+	<h4><%= link_to '<<< Back to Articles', articles_path %></h4>
 	<h1><%= @article.title %></h1>
 	<h3>Category: <i><%= @article.category.name %></i></h3>
 	<p><%= image_tag(@article.featured_image.url, size: "700x600") if @article.featured_image? %></p>
 	<p><%= @article.body %></p>
 
-	<h4><%= link_to '<<< Back', articles_path %></h4>
 	<h4><%= link_to 'Edit', edit_article_path(@article), class: "btn btn-primary" %>
 			<%= link_to "Delete", @article, data: {
   													confirm: 'Are you shure?'
