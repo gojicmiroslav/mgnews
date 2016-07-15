@@ -25,6 +25,7 @@ class Article
   scope :most_read, -> { order_by(pubdate: :desc).limit(10) }
   scope :panel_articles, -> (category) { where(category: category).order_by(pubdate: :desc).limit(4) }
   #default_scope -> { where(published: true) }
+  default_scope ->{ order_by(created_at: :desc) }
 
   mount_uploader :featured_image, FeaturedImageUploader
 

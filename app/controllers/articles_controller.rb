@@ -4,8 +4,9 @@ class ArticlesController < ApplicationController
 	before_action :authorize_articles, only: [:index]
 
 	def index
-		#@articles = get_all_articles_from_owner
-		@articles = Article.page params[:page]
+		user_articles = get_all_articles_from_owner
+		#@articles = Article.page params[:page]
+		@articles = Kaminari.paginate_array(user_articles).page params[:page]
 	end
 
 	def show
