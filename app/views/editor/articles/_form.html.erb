@@ -1,4 +1,4 @@
-<%= simple_form_for @article do |f| %>
+<%= simple_form_for [:editor, @article] do |f| %>
 	<%= f.input :category, collection: Category.all.map { |cat| [cat.name, cat.id]} %>
 	<%= f.input :title %>
 	<%= f.input :show_text, as: :text, label: 'Show Text' %>

@@ -9,7 +9,7 @@ describe "Show Article" do
 
 	scenario "article page" do
 		article = FactoryGirl.create(:article, user: user, category: FactoryGirl.create(:category))
-		visit article_path(article)
+		visit editor_article_path(article)
 		expect(page).to have_content(article.title)
 		expect(page).to have_content(article.body)
 	end

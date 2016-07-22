@@ -1,5 +1,5 @@
 require 'rails_helper'
-require_relative '../../support/articles/edit_article_form'
+require_relative '../../support/editor_articles/edit_article_form'
 
 feature "Edit Article" do
 	let!(:user){ FactoryGirl.create(:user_editor) }

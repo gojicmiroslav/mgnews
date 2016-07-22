@@ -10,7 +10,7 @@ feature "Delete Article" do
 	end
 
 	scenario "delete article" do
-		visit articles_path
+		visit editor_articles_path
 		expect {
 			click_on("Delete")
 		}.to change(Article, :count).by(-1)

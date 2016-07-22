@@ -1,0 +1,116 @@
+<% Category.ordered(8).each_with_index do |category, index| %>
+	<% if index % 4 == 0 %>
+		<div class="row">
+			<div class="col-md-3">
+				<div class="panel panel-default">
+				  	<div class="panel-heading">
+				    	<h3 class="panel-title"><%= category.name %></h3>
+				  	</div>
+				  	<div class="panel-body">
+				    <% Article.panel_articles(category).each_with_index do |article, index| %>
+						<h4 class="panel-title-article">
+							<%= link_to article.title, category_article_path(article.category, article), class: "panel-link-article" %>
+						</h4>
+
+						<% if index == 0 %>
+								<% href = article.featured_image? ?  
+			  						image_tag(article.featured_image.url, class: "img-responsive img-rounded tweet-img", 
+			  							height: "120", width: "230") :
+			  						"placeholder"
+			  			 		%>
+	      						<%= link_to category_article_path(article.category, article) do %>
+	      							<%= href %>
+		      					<% end %>
+							<% end %>
+
+							<hr />
+				    <% end %>
+				  </div>
+				</div>
+			</div>
+	<% elsif index % 4 == 1 %>
+			<div class="col-md-3">
+				<div class="panel panel-default">
+				  	<div class="panel-heading">
+				    	<h3 class="panel-title"><%= category.name %></h3>
+				  	</div>
+				  	<div class="panel-body">
+				    	<% Article.panel_articles(category).each_with_index do |article, index| %>
+							<h4 class="panel-title-article">
+								<%= link_to article.title, category_article_path(article.category, article), class: "panel-link-article" %>
+							</h4>
+
+							<% if index == 0 %>
+								<% href = article.featured_image? ?  
+			  						image_tag(article.featured_image.url, class: "img-responsive img-rounded tweet-img", 
+			  							height: "120", width: "230") :
+			  						"placeholder"
+			  			 		%>
+	      						<%= link_to category_article_path(article.category, article) do %>
+	      							<%= href %>
+		      					<% end %>
+							<% end %>
+
+							<hr />
+				    	<% end %>
+				  	</div>
+				</div>
+			</div>
+	<% elsif index % 4 == 2 %>
+			<div class="col-md-3">
+				<div class="panel panel-default">
+				  	<div class="panel-heading">
+				    	<h3 class="panel-title"><%= category.name %></h3>
+				  	</div>
+				  	<div class="panel-body">
+				    	<% Article.panel_articles(category).each_with_index do |article, index| %>
+							<h4 class="panel-title-article">
+								<%= link_to article.title, category_article_path(article.category, article), class: "panel-link-article" %>
+							</h4>
+							
+							<% if index == 0 %>
+								<% href = article.featured_image? ?  
+			  						image_tag(article.featured_image.url, class: "img-responsive img-rounded tweet-img", 
+			  							height: "120", width: "230") :
+			  						"placeholder"
+			  			 		%>
+	      						<%= link_to category_article_path(article.category, article) do %>
+	      							<%= href %>
+		      					<% end %>
+							<% end %>
+
+							<hr />
+				    	<% end %>
+				  	</div>
+				</div>
+			</div>
+	<% elsif index % 4 == 3 %>
+			<div class="col-md-3">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title"><%= category.name %></h3>
+				  </div>
+				  <div class="panel-body">
+				    <% Article.panel_articles(category).each_with_index do |article, index| %>
+							<h4 class="panel-title-article">
+								<%= link_to article.title, category_article_path(article.category, article), class: "panel-link-article" %>	
+							</h4>
+							<% if index == 0 %>
+								<% href = article.featured_image? ?  
+			  						image_tag(article.featured_image.url, class: "img-responsive img-rounded tweet-img", 
+			  							height: "120", width: "230") :
+			  						"placeholder"
+			  			 		%>
+	      						<%= link_to category_article_path(article.category, article) do %>
+	      							<%= href %>
+		      					<% end %>
+							<% end %>
+
+							<hr />
+				    <% end %>
+				  </div>
+				</div>
+			</div>
+		</div>
+	<% end %>
+<% end %>

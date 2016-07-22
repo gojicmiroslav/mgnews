@@ -4,8 +4,13 @@ Rails.application.routes.draw do
   devise_for :users
   root 'static_pages#index'
 
-  resources :categories
-  resources :articles
+  resources :categories do
+    resources :articles, only: [:show]
+  end
+
+  namespace :editor do
+    resources :articles
+  end 
 
   #match '/uploads/article/featured_image/:id/:filename' => 'gridfs#featured_image'
 

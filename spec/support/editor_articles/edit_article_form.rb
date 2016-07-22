@@ -2,7 +2,7 @@ class EditArticleForm
 	include Capybara::DSL
 
 	def visit_page(id)
-		visit("/articles/#{id}/edit")
+		visit("/editor/articles/#{id}/edit")
 		self
 	end
 

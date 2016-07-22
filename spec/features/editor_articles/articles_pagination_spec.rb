@@ -17,7 +17,7 @@ feature 'Articles pagination' do
 		end
 
 		scenario 'should paginate articles' do
-			visit '/articles'
+			visit 'editor/articles'
 
 			expect(page).to have_css('nav.pagination')
 		end
@@ -32,7 +32,7 @@ feature 'Articles pagination' do
 		end
 
 		scenario 'should paginate articles' do
-			visit '/articles'
+			visit 'editor/articles'
 
 			expect(page).not_to have_css('nav.pagination')
 		end

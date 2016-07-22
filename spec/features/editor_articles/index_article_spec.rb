@@ -13,11 +13,11 @@ feature 'Article index' do
 
 	# TODO
 	scenario "shows articles ordered by :created_at in :desc order" do
-		visit articles_path
+		visit editor_articles_path
 	end
 
 	scenario "shows only articles of current authenticated user" do
-		visit articles_path
+		visit editor_articles_path
 
 		expect(page).to have_content(article1.title)
 		expect(page).not_to have_content(article2.title)

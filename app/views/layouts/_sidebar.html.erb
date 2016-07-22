@@ -1,0 +1,32 @@
+<div class="sidebar">
+	<div class="sidebar-module sidebar-module-inset">
+		<h4>Video</h4>
+		<p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+		<div class="embed-container">
+			<%= embed("http://www.youtube.com/watch?v=DokUjuZmpCE  ") %>
+		</div>
+	</div>
+
+	<div class="inside inside-full-height">
+		<div class="content">
+			<h4>Most Read</h4>
+			<% Article.most_read.each do |article| %>
+				<div class="media">
+		  			<div class="media-right media-top">
+		  				<% href = article.featured_image? ?  
+		  						image_tag(article.featured_image.url, class: "media-object", 
+		  							height: "90", width: "115") :
+		  						"placeholder"
+		  			 	%>
+							<%= link_to category_article_path(article.category, article) do %>
+								<%= href %>
+							<% end %>
+		  			</div>
+		  			<div class="media-body">
+		    			<%= link_to article.title, category_article_path(article.category, article) %>
+		  			</div>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</div>

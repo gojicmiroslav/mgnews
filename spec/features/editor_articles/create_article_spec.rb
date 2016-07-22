@@ -1,5 +1,5 @@
 require 'rails_helper'
-require_relative '../../support/articles/new_article_form'
+require_relative '../../support/editor_articles/new_article_form'
 
 feature 'Create new article' do
 	let(:new_article_form) { NewArticleForm.new }

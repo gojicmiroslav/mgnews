@@ -2,7 +2,7 @@ class NewArticleForm
 	include Capybara::DSL
 
 	def visit_page
-		visit('/articles')
+		visit('/editor/articles')
 		click_on('New Article')
 		self
 	end

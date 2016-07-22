@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ArticlesController do
+describe Editor::ArticlesController do
 
 	describe "GUEST USER" do
 		let(:category){ FactoryGirl.create(:category) } 
