@@ -35,10 +35,25 @@ class Editor::ArticlesController < ApplicationController
 
 	def update
 		authorize @article
-		if @article.update(article_params)
-			redirect_to editor_article_path(@article), notice: 'Article was successfully updated.'
+		res = true
+
+		if request.xhr? # if is AJAX
+			@article.pubdate = params[:pubdate].nil? ? @article.pubdate : params[:pubdate]
+			res = @article.save
 		else
-			render :edit
+			res = @article.update(article_params)
+		end
+
+		if res
+			respond_to do |format|
+				format.html { redirect_to editor_article_path(@article), notice: 'Article was successfully updated.' } 
+				format.js {}
+			end		
+		else
+			respond_to do |format|
+				format.html { render :edit }
+				format.js {}
+			end		 	
 		end
 	end
 
@@ -60,7 +75,7 @@ class Editor::ArticlesController < ApplicationController
 
 	def user_not_authorized
 		flash[:alert] = "You are not authorized to perform this action."
-    redirect_to(root_url)
+    	redirect_to(root_url)
 	end
 
 	def get_all_articles_from_owner

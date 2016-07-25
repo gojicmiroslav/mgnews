@@ -20,10 +20,10 @@ class Article
 
   scope :publish_date_desc, -> { order_by(created_at: :desc) }
   scope :published, -> { where( :pubdate.ne => nil) }
-  scope :first_three_articles, -> { order_by(pubdate: :desc).limit(3) }
-  scope :second_two_articles, -> { order_by(pubdate: :desc).skip(3).limit(2) }
-  scope :most_read, -> { order_by(pubdate: :desc).limit(6) }
-  scope :panel_articles, -> (category) { where(category: category).order_by(pubdate: :desc).limit(4) }
+  scope :first_three_articles, -> { where( :pubdate.ne => nil).order_by(pubdate: :desc).limit(3) }
+  scope :second_two_articles, -> { where( :pubdate.ne => nil).order_by(pubdate: :desc).skip(3).limit(2) }
+  scope :most_read, -> { where( :pubdate.ne => nil).order_by(pubdate: :desc).limit(6) }
+  scope :panel_articles, -> (category) { where(category: category).where( :pubdate.ne => nil).order_by(pubdate: :desc).limit(4) }
   #default_scope -> { where(published: true) }
   default_scope ->{ order_by(created_at: :desc) }
 

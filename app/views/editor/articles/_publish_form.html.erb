@@ -1,0 +1,5 @@
+<%= form_for(article, url: editor_article_path(article), remote: true) do |f| %>
+	<%= hidden_field_tag :id, article.id %>
+	<%= hidden_field_tag :pubdate, DateTime.now %>
+	<%= f.submit "Publish", class: 'btn btn-success' %>
+<% end %>

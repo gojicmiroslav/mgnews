@@ -55,6 +55,7 @@ group :test do
 	gem 'capybara-screenshot'
 	gem 'shoulda-matchers'
 	gem 'faker'
+  gem 'selenium-webdriver'
 end
 
 group :production do

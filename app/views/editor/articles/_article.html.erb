@@ -2,11 +2,22 @@
 	<td><%= article.title %></td>
 	<td><%= truncate article.body, length: 50 %></td>
 	<td><%= article.category.name %></td>
-	<td><%= article.pubdate? ? 'Published' : 'Unpublished' %></td>
+	<td>
+		<div id="article_status">
+			<%= article.pubdate.nil? ? 'Unpublished' : 'Published' %></td>
+		</div>
 	<td><%= link_to image_tag(article.featured_image.url, size: "100x100"), article.featured_image.url %></td>
 	<td><%= link_to "View", editor_article_path(article), class: "btn btn-primary" %></td>
 	<td><%= link_to "Edit", edit_editor_article_path(article), class: "btn btn-primary" %></td>
-	<td><%= link_to "Publish", edit_editor_article_path(article), class: "btn btn-success" %></td>
+	<td>
+		<div id="publish_article_<%= article.id %>">
+			<% if article.pubdate.nil? %>
+				<%= render 'publish_form', article: article %>
+			<% else %>
+				<%= render 'article_published' %>
+			<% end %>
+		</div>
+	</td>
 	<td><%= link_to "Delete", editor_article_path(article), data: {
 											confirm: 'Are you shure?'
 										}, method: :delete, class: "btn btn-danger" %> 
