@@ -18,7 +18,7 @@ class Article
   validates :category, presence: true
   validate :image_size
 
-  scope :publish_date_desc, -> { order_by(created_at: :desc) }
+  scope :publish_date_desc, -> { where(:pubdate.ne => nil).order_by(created_at: :desc) }
   scope :published, -> { where( :pubdate.ne => nil) }
   scope :first_three_articles, -> { where( :pubdate.ne => nil).order_by(pubdate: :desc).limit(3) }
   scope :second_two_articles, -> { where( :pubdate.ne => nil).order_by(pubdate: :desc).skip(3).limit(2) }
@@ -26,6 +26,7 @@ class Article
   scope :panel_articles, -> (category) { where(category: category).where( :pubdate.ne => nil).order_by(pubdate: :desc).limit(4) }
   #default_scope -> { where(published: true) }
   default_scope ->{ order_by(created_at: :desc) }
+  scope :category_articles, -> (category) { where(:category_id => category.id).where( :pubdate.ne => nil).order_by(pubdate: :desc) }
 
   mount_uploader :featured_image, FeaturedImageUploader
 

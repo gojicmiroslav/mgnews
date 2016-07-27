@@ -1,0 +1,28 @@
+<div class="row">				
+	<div class="col-md-8">
+    		<h2><%= link_to article.title, category_article_path(article.category, article) %></h2>
+
+    		<p style="font-size: 1.2em; line-height: 30px"><%= article.show_text %></p>
+    		<br />
+    		<p>
+    			<b><a href="mailto:<%= article.user.email %>"><%= article.user.email %></a></b>
+
+    			&nbsp; &nbsp;
+    			<span class="text-muted"><%= time_ago_in_words(article.pubdate) %></span>
+    		</p>
+		</div>
+
+		<div class="col-md-4">
+  			<div class="story-img">
+  			<%= link_to category_article_path(article.category, article) do %>
+    		<%= image_tag(article.featured_image.url, class: "img-responsive img-rounded tweet-img", width: '500') if article.featured_image? %>
+    		<% end %>
+    		</div>
+		</div>
+	
+	<div class="row">
+		<div class="col-md-11">
+			<div class="divider"></div>
+		</div>
+	</div>
+</div>

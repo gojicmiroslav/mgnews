@@ -79,13 +79,13 @@ class Editor::ArticlesController < ApplicationController
 	end
 
 	def get_all_articles_from_owner
-		@articles = []
-		Article.publish_date_desc.each do |article|
+		articles = []
+		Article.each do |article|
 			if current_user == article.user
-				@articles << article
+				articles << article
 			end
 		end
-		@articles
+		articles
 	end
 
 	def authorize_articles

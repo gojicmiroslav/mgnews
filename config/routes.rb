@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   devise_for :users
   root 'static_pages#index'
 
-  resources :categories do
+  resources :categories, only: [:show] do
     resources :articles, only: [:show]
   end
 
