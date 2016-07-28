@@ -219,6 +219,10 @@ footer {
   padding-right: 25px;
 }
 
+.blog-main img {
+  max-width: 100%;
+}
+
 .story-img{
   margin-top:30px;
   padding-right:50px;
@@ -228,4 +232,8 @@ footer {
   padding-top: 36px;
   margin-bottom: 40px;
   border-bottom: 1px solid rgba(162, 125, 125, 0.8);  
+}
+
+.ck-body {
+  margin-right: 10px;
 }

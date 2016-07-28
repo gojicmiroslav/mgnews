@@ -21,7 +21,7 @@ class Editor::ArticlesController < ApplicationController
 	def create
 		@article = current_user.articles.build(article_params)
 		authorize @article
-
+		
 		if @article.save
 			redirect_to editor_article_path(@article), notice: 'Article has been created'
 		else
@@ -70,7 +70,7 @@ class Editor::ArticlesController < ApplicationController
 	end
 
 	def article_params
-		params.require(:article).permit(:title, :body, :pubdate, :featured_image, :user, :category, :show_text)
+		params.require(:article).permit(:title, :body, :pubdate, :featured_image, :user, :category_id, :show_text)
 	end
 
 	def user_not_authorized

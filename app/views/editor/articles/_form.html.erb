@@ -1,8 +1,8 @@
 <%= simple_form_for [:editor, @article] do |f| %>
-	<%= f.input :category, collection: Category.all.map { |cat| [cat.name, cat.id]} %>
+	<%= f.association :category %>
 	<%= f.input :title %>
 	<%= f.input :show_text, as: :text, label: 'Show Text' %>
-	<%= f.input :body, as: :text %>
+	<%= f.input :body, as: :ckeditor, class: 'ck-body', input_html: { ckeditor: { toolbar: 'Full' } } %>
 	<%= f.input :featured_image, as: :file %>
 	<%= f.submit class: 'btn btn-primary' %>
 <% end %>
