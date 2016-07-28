@@ -296,6 +296,8 @@ GEM
       mini_portile2 (~> 2.0.0.rc2)
     nokogiri (1.6.7.2-x86-mingw32)
       mini_portile2 (~> 2.0.0.rc2)
+    non-stupid-digest-assets (1.0.8)
+      sprockets (>= 2.0)
     origin (2.2.0)
     orm_adapter (0.5.0)
     puma (3.4.0)
@@ -456,6 +458,7 @@ DEPENDENCIES
   mini_magick
   mongoid
   mongoid_paranoia
+  non-stupid-digest-assets
   puma
   pundit
   rails (= 4.2.6)
